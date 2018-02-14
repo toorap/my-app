@@ -46,9 +46,14 @@ public class AppTest
         Assert.assertEquals(new BigDecimal(400).doubleValue(),
                 rc.calculateRevenue(new BigDecimal(0), new BigDecimal(400)).doubleValue());
 
-        // 100%
+        // 0% free
+        Assert.assertEquals(new BigDecimal(0).doubleValue(),
+                rc.calculateRevenue(new BigDecimal(0), new BigDecimal(0)).doubleValue());
+
+
+        // not possible as no cost
         try {
-            rc.calculateRevenue(new BigDecimal(100), new BigDecimal(0)).doubleValue();
+            rc.calculateRevenue(new BigDecimal(100), new BigDecimal(0));
             fail();
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), "Cannot calculate");
@@ -58,10 +63,32 @@ public class AppTest
         Assert.assertEquals(new BigDecimal(200).doubleValue(),
                 rc.calculateRevenue(new BigDecimal(-100), new BigDecimal(400)).doubleValue());
 
-
-        // round
+        // rounding
         Assert.assertEquals(new BigDecimal(14.35).doubleValue(),
                 rc.calculateRevenue(new BigDecimal(30.33), new BigDecimal(10)).doubleValue());
 
+        // null arg
+        try {
+            rc.calculateRevenue(null, new BigDecimal(10));
+            fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "Cannot calculate");
+        }
+
+        // null arg
+        try {
+            rc.calculateRevenue(new BigDecimal(10),null);
+            fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "Cannot calculate");
+        }
+
+        // -ve cost
+        try {
+            rc.calculateRevenue(new BigDecimal(10), new BigDecimal(-10));
+            fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "Cannot calculate");
+        }
     }
 }

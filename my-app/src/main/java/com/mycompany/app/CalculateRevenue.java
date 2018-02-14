@@ -10,8 +10,13 @@ public class CalculateRevenue implements RevenueCalculator
 
     public  BigDecimal calculateRevenue(BigDecimal marginPercentage, BigDecimal costOfGoods) {
 
-        if (costOfGoods.equals(new BigDecimal(0)))
+        if (costOfGoods==null || marginPercentage==null || costOfGoods.doubleValue()<0 )
             throw new RuntimeException("Cannot calculate");
+
+        if (costOfGoods.equals(new BigDecimal(0)) && !marginPercentage.equals(new BigDecimal(0))) {
+            throw new RuntimeException("Cannot calculate");
+        }
+
 
         BigDecimal percentageDecimal = marginPercentage.divide(new BigDecimal(100));
         BigDecimal revenuePercentage = new BigDecimal(1).subtract(percentageDecimal);
