@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 public class CalculateRevenue implements RevenueCalculator
 {
     public CalculateRevenue() {
-
     }
 
     public  BigDecimal calculateRevenue(BigDecimal marginPercentage, BigDecimal costOfGoods) {
