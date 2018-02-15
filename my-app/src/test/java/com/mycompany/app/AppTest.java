@@ -38,9 +38,14 @@ public class AppTest
     {
         RevenueCalculator rc = new CalculateRevenue();
 
-        // 20%
+        // happy path
         Assert.assertEquals(new BigDecimal(500).doubleValue(),
                 rc.calculateRevenue(new BigDecimal(20), new BigDecimal(400)).doubleValue());
+
+
+        // decimal
+        Assert.assertEquals(new BigDecimal(12.85).doubleValue(),
+                rc.calculateRevenue(new BigDecimal(17.89), new BigDecimal(10.55)).doubleValue());
 
         // 0%
         Assert.assertEquals(new BigDecimal(400).doubleValue(),
@@ -78,6 +83,23 @@ public class AppTest
         // null arg
         try {
             rc.calculateRevenue(new BigDecimal(10),null);
+            fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "Cannot calculate");
+        }
+
+        // empty arg
+        BigDecimal empty=null;
+        try {
+            rc.calculateRevenue(empty,new BigDecimal(10));
+            fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "Cannot calculate");
+        }
+
+        // empty arg
+        try {
+            rc.calculateRevenue(new BigDecimal(10), empty);
             fail();
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), "Cannot calculate");
